@@ -16,7 +16,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "rock-of-ages-terraform-state-rap"
+  bucket = var.s3_bucket_name
 
   tags = {
     Name        = "Terraform State Bucket"

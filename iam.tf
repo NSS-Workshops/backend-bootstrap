@@ -49,47 +49,55 @@ resource "aws_iam_role" "github_oidc" {
   description        = "GitHub OIDC role"
 }
 
-#############################
-# Attach AWS Managed Policies
-#############################
-locals {
-  managed_policies = [
-    "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess",
-    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-    "arn:aws:iam::aws:policy/CloudFrontFullAccess",
-    "arn:aws:iam::aws:policy/AWSLambda_FullAccess",
-    "arn:aws:iam::aws:policy/IAMFullAccess",
-    "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
-  ]
-}
 
-resource "aws_iam_role_policy" "github_oidc_cloudwatch_logs" {
-  name = "cloudwatch-logs-tagging"
+resource "aws_iam_role_policy" oidc_inline_policy" {
+  name = "oidc-inline-policy"
   role = aws_iam_role.github_oidc.id
 
   policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "logs:CreateLogGroup",
-          "logs:TagResource",
-          "logs:UntagResource",
-          "logs:PutRetentionPolicy",
-          "logs:ListTagsForResource",
-          "logs:DeleteLogGroup"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "github_oidc_managed" {
-  for_each = toset(local.managed_policies)
-
-  role       = aws_iam_role.github_oidc.name
-  policy_arn = each.value
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "FullAccessForWorkshopServices",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:*",
+				"ec2:*",
+				"ecr:*",
+				"ecs:*",
+				"rds:*",
+				"s3:*",
+				"lambda:*",
+				"cloudfront:*",
+				"elasticloadbalancing:*",
+				"logs:*",
+				"tag:*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"iam:CreateRole",
+				"iam:DeleteRole",
+				"iam:GetRole",
+				"iam:UpdateRole",
+				"iam:TagRole",
+				"iam:UntagRole",
+				"iam:AttachRolePolicy",
+				"iam:DetachRolePolicy",
+				"iam:PutRolePolicy",
+				"iam:DeleteRolePolicy",
+				"iam:ListRoles",
+				"iam:ListAttachedRolePolicies",
+				"iam:ListRolePolicies",
+				"iam:PassRole",
+        "iam:ListPolicies",
+        "iam:GetPolicy",
+        "iam:GetPolicyVersion"
+			],
+			"Resource": "*"
+		}
+	]
+})
 }

@@ -81,6 +81,7 @@ resource "aws_iam_role_policy" oidc_inline_policy" {
 				"iam:CreateRole",
 				"iam:DeleteRole",
 				"iam:GetRole",
+				"iam:GetRolePolicy",
 				"iam:UpdateRole",
 				"iam:TagRole",
 				"iam:UntagRole",
@@ -92,9 +93,9 @@ resource "aws_iam_role_policy" oidc_inline_policy" {
 				"iam:ListAttachedRolePolicies",
 				"iam:ListRolePolicies",
 				"iam:PassRole",
-        "iam:ListPolicies",
-        "iam:GetPolicy",
-        "iam:GetPolicyVersion"
+				"iam:ListPolicies",
+				"iam:GetPolicy",
+				"iam:GetPolicyVersion"
 			],
 			"Resource": "*"
 		}

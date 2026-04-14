@@ -95,7 +95,8 @@ resource "aws_iam_role_policy" oidc_inline_policy" {
 				"iam:PassRole",
 				"iam:ListPolicies",
 				"iam:GetPolicy",
-				"iam:GetPolicyVersion"
+				"iam:GetPolicyVersion",
+				"iam:ListInstanceProfilesForRole"
 			],
 			"Resource": "*"
 		}

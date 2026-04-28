@@ -71,7 +71,9 @@ resource "aws_iam_role_policy" oidc_inline_policy" {
 				"cloudfront:*",
 				"elasticloadbalancing:*",
 				"logs:*",
-				"tag:*"
+				"tag:*",
+				"cloudwatch:*",
+				"sqs:*"
 			],
 			"Resource": "*"
 		},

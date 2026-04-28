@@ -77,3 +77,21 @@ output "lock_table_arn" {
   description = "ARN of DynamoDB table for Terraform state locking"
   value       = aws_dynamodb_table.terraform_locks.arn
 }
+
+resource "aws_s3_bucket" "images" {
+  bucket        = var.image_storage_bucket
+  force_destroy = true
+
+  tags = {
+    Name = "Rock of Ages Image Storage Bucket"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "images" {
+  bucket = aws_s3_bucket.images.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}

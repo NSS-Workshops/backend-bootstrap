@@ -50,7 +50,7 @@ resource "aws_iam_role" "github_oidc" {
 }
 
 
-resource "aws_iam_role_policy" oidc_inline_policy" {
+resource "aws_iam_role_policy" "oidc_inline_policy" {
   name = "oidc-inline-policy"
   role = aws_iam_role.github_oidc.id
 
